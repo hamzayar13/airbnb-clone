@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Favorites — Airbnb</title>
+    <link rel="stylesheet" href="/output.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "DM Sans", sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Playfair Display", serif;
+      }
+      .grid-bg {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+    </style>
+  </head>
+  <body class="bg-zinc-950 text-zinc-100 min-h-screen grid-bg flex flex-col">
+    <%- include('../partials/navbar') %>
+
+    <main class="flex-1 px-10 py-16 max-w-6xl mx-auto w-full">
+      <h1>This page is for Index</h1>
+      <div class="mb-12">
+        <span
+          class="text-amber-400 text-xs tracking-[0.3em] uppercase block mb-3"
+          >Saved Properties</span
+        >
+        <h1 class="text-5xl text-zinc-100 leading-tight">
+          My <em class="text-zinc-500">Favorites</em>
+        </h1>
+        <div class="w-12 h-px bg-amber-400 mt-6"></div>
+      </div>
+
+      <div class="border border-dashed border-zinc-800 px-6 py-24 text-center">
+        <span class="text-zinc-700 text-4xl block mb-4">♡</span>
+        <p class="text-zinc-600 text-sm mb-2">No saved properties yet</p>
+        <a href="/" class="text-amber-400 text-xs hover:underline"
+          >Browse properties →</a
+        >
+      </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+  </body>
+</html>
