@@ -1,14 +1,14 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Lato', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
+  background-color: #F3F7F7;
 }
 
 header {
-  background-color: #ff5a5f;
+  background: linear-gradient(135deg, #1A3C40 0%, #0F2D30 100%);
   padding: 1rem 2rem;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 nav {
@@ -31,27 +31,27 @@ nav li {
 nav a {
   text-decoration: none;
   color: white;
-  font-weight: bold;
+  font-weight: 500;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: background-color 0.3s ease;
 }
 
 nav a:hover {
-  background-color: #e54e52;
+  background-color: rgba(255,255,255,0.1);
 }
 
 main {
   text-align: center;
   padding: 5rem 2rem;
   background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(26,62,64,0.08);
   margin: 2rem auto;
   max-width: 600px;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 h2 {
-  color: #333;
+  color: #1A2E30;
   font-size: 2rem;
 }

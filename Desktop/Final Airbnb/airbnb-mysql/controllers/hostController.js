@@ -23,6 +23,11 @@ exports.getEditHome = async (req, res, next) => {
       return res.redirect("/host/host-home-list");
     }
 
+    // Only the owner can edit their home
+    if (home.host_id !== req.session.user?.id) {
+      return res.redirect("/host/host-home-list");
+    }
+
     res.render("host/edit-home", {
       home,
       pageTitle: "Edit your Home",
@@ -38,7 +43,8 @@ exports.getEditHome = async (req, res, next) => {
 
 exports.getHostHomes = async (req, res, next) => {
   try {
-    const registeredHomes = await Home.findAll();
+    const hostId = req.session.user?.id;
+    const registeredHomes = await Home.findByHostId(hostId);
     res.render("host/host-home-list", {
       registeredHomes,
       pageTitle: "Host Homes List",
@@ -54,12 +60,20 @@ exports.getHostHomes = async (req, res, next) => {
 exports.postAddHome = async (req, res, next) => {
   try {
     const { houseName, price, location, rating, description } = req.body;
-    const hostId = req.session.user.id;
+    const hostId = req.session.user?.id;
+
+    if (!hostId) {
+      console.error("Error: No user ID in session");
+      return res.status(401).send("Not authenticated");
+    }
 
     if (!req.file) {
+      console.error("Error: No file uploaded");
       return res.status(422).send("No image provided");
     }
 
+    console.log("Adding home with data:", { houseName, price, location, rating, hostId });
+    
     const photo = req.file.path;
     await Home.create({
       houseName,
@@ -72,6 +86,7 @@ exports.postAddHome = async (req, res, next) => {
     });
     res.redirect("/host/host-home-list");
   } catch (err) {
+    console.error("postAddHome error:", err);
     next(err);
   }
 };
@@ -80,6 +95,11 @@ exports.postEditHome = async (req, res, next) => {
   try {
     const { id, houseName, price, location, rating, description } = req.body;
     const existingHome = await Home.findById(id);
+
+    // Only the owner can edit their home
+    if (!existingHome || existingHome.host_id !== req.session.user?.id) {
+      return res.redirect("/host/host-home-list");
+    }
 
     let newPhoto = null;
     if (req.file) {
@@ -109,7 +129,14 @@ exports.postEditHome = async (req, res, next) => {
 exports.postDeleteHome = async (req, res, next) => {
   try {
     const homeId = req.params.homeId;
-    const home = await Home.deleteById(homeId);
+    const home = await Home.findById(homeId);
+
+    // Only the owner can delete their home
+    if (!home || home.host_id !== req.session.user?.id) {
+      return res.redirect("/host/host-home-list");
+    }
+
+    await Home.deleteById(homeId);
 
     // Delete the photo file from disk if it exists
     if (home && home.photo) {
@@ -126,8 +153,17 @@ exports.postDeleteHome = async (req, res, next) => {
 
 exports.getReservations = async (req, res, next) => {
   try {
-    const hostId = req.session.user.id;
+    const hostId = req.session.user?.id;
+    
+    if (!hostId) {
+      console.error("Error: No user ID in session for reservations");
+      return res.status(401).send("Not authenticated");
+    }
+
+    console.log("Fetching reservations for hostId:", hostId);
+    
     const reservations = await Booking.findByHostId(hostId);
+    
     res.render("host/reservations", {
       reservations,
       pageTitle: "My Reservations",
@@ -136,6 +172,7 @@ exports.getReservations = async (req, res, next) => {
       user: req.session.user,
     });
   } catch (err) {
+    console.error("getReservations error:", err);
     next(err);
   }
 };

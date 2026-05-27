@@ -8,7 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
     <style>
       * { box-sizing: border-box; }
-      body { font-family: 'Lato', sans-serif; background: #f5f0e8; color: #2c2416; margin: 0; }
+      @media (min-width: 640px) {
+        .main-bookings { padding: 3rem 2.5rem !important; }
+      }
+      @media (max-width: 639px) {
+        .booking-card { flex-direction: column !important; }
+        .booking-img { width: 100% !important; height: 200px !important; }
+        .booking-bottom-row { flex-direction: column !important; gap: 1rem; }
+      }
+      body { font-family: 'Lato', sans-serif; background: #F3F7F7; color: #1A2E30; margin: 0; }
       h1 { font-family: 'Cormorant Garamond', serif; }
       @keyframes fadeUp {
         from { opacity: 0; transform: translateY(16px); }
@@ -16,8 +24,8 @@
       }
       .fade-up { animation: fadeUp 0.6s ease forwards; }
       .fade-up-2 { animation: fadeUp 0.6s ease 0.15s forwards; opacity: 0; }
-      .booking-card { background: #fff; border: 1px solid rgba(44,36,22,0.1); border-radius: 8px; overflow: hidden; display: flex; gap: 1.5rem; padding: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; }
-      .booking-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(44,36,22,0.08); }
+      .booking-card { background: #fff; border: 1px solid rgba(26,62,64,0.1); border-radius: 8px; overflow: hidden; display: flex; gap: 1.5rem; padding: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; }
+      .booking-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(26,62,64,0.08); }
       .booking-img { width: 200px; height: 150px; object-fit: contain; background-color: #f0ebe0; border-radius: 4px; flex-shrink: 0; }
       .btn-cancel { background: #e74c3c; color: #fff; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
       .btn-cancel:hover { background: #c0392b; }
@@ -27,56 +35,56 @@
 
     <%- include('../partials/navbar') %>
 
-    <main style="flex:1;padding:3rem 2.5rem;max-width:72rem;margin:0 auto;width:100%;">
+    <main class="main-bookings" style="flex:1;padding:3rem 1rem;max-width:72rem;margin:0 auto;width:100%;">
 
       <div class="fade-up" style="margin-bottom:3rem;">
-        <span style="color:#6b7c5e;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:0.75rem;">Your Trips</span>
-        <h1 style="font-size:3rem;color:#2c2416;font-weight:300;">My <em style="color:#c2714f;">Bookings</em></h1>
+        <span style="color:#3A7B6F;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:0.75rem;">Your Trips</span>
+        <h1 style="font-size:3rem;color:#1A2E30;font-weight:300;">My <em style="color:#E07B45;">Bookings</em></h1>
         <div style="width:2.5rem;height:2px;background:#6b7c5e;margin-top:1rem;"></div>
       </div>
 
       <% if (!bookings || bookings.length === 0) { %>
-        <div class="fade-up-2" style="border:1.5px dashed rgba(44,36,22,0.15);padding:5rem 1.5rem;text-align:center;border-radius:8px;background:rgba(255,255,255,0.4);">
-          <p style="font-size:3rem;color:rgba(44,36,22,0.15);margin-bottom:1rem;">✈️</p>
-          <p style="color:#9a8a72;font-size:0.875rem;margin-bottom:0.5rem;">No bookings yet</p>
-          <p style="color:#9a8a72;font-size:0.8rem;margin-bottom:1rem;">Start exploring and book your next adventure!</p>
-          <a href="/" style="color:#c2714f;font-size:0.8rem;text-decoration:none;font-weight:500;">Browse properties →</a>
+        <div class="fade-up-2" style="border:1.5px dashed rgba(26,62,64,0.15);padding:5rem 1.5rem;text-align:center;border-radius:8px;background:rgba(255,255,255,0.4);">
+          <p style="font-size:3rem;color:rgba(26,62,64,0.15);margin-bottom:1rem;">✈️</p>
+          <p style="color:#7A9EA0;font-size:0.875rem;margin-bottom:0.5rem;">No bookings yet</p>
+          <p style="color:#7A9EA0;font-size:0.8rem;margin-bottom:1rem;">Start exploring and book your next adventure!</p>
+          <a href="/" style="color:#E07B45;font-size:0.8rem;text-decoration:none;font-weight:500;">Browse properties →</a>
         </div>
       <% } else { %>
         <div class="fade-up-2">
           <% bookings.forEach((booking) => { %>
             <div class="booking-card">
-              <div style="width:200px;height:150px;overflow:hidden;border-radius:4px;flex-shrink:0;background:#e8dcc8;">
+              <div style="width:200px;height:150px;overflow:hidden;border-radius:4px;flex-shrink:0;background:#DDEAEC;">
                 <% if (booking.photo) { %>
                   <img src="/<%= booking.photo %>" alt="<%= booking.houseName %>" class="booking-img" />
                 <% } else { %>
                   <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
-                    <span style="color:rgba(44,36,22,0.2);font-size:2.5rem;">⌂</span>
+                    <span style="color:rgba(26,62,64,0.2);font-size:2.5rem;">⌂</span>
                   </div>
                 <% } %>
               </div>
               
               <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
                 <div>
-                  <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#2c2416;margin:0 0 0.5rem 0;"><%= booking.houseName %></h3>
-                  <p style="color:#9a8a72;font-size:0.85rem;margin:0 0 1rem 0;">📍 <%= booking.location %></p>
+                  <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#1A2E30;margin:0 0 0.5rem 0;"><%= booking.houseName %></h3>
+                  <p style="color:#7A9EA0;font-size:0.85rem;margin:0 0 1rem 0;">📍 <%= booking.location %></p>
                   
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;font-size:0.9rem;">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1rem;font-size:0.9rem;">
                     <div>
-                      <p style="color:#9a8a72;font-size:0.75rem;text-transform:uppercase;margin:0 0 0.25rem 0;">Check-in</p>
-                      <p style="color:#2c2416;margin:0;font-weight:500;"><%= new Date(booking.check_in_date).toLocaleDateString() %></p>
+                      <p style="color:#7A9EA0;font-size:0.75rem;text-transform:uppercase;margin:0 0 0.25rem 0;">Check-in</p>
+                      <p style="color:#1A2E30;margin:0;font-weight:500;"><%= new Date(booking.check_in_date).toLocaleDateString() %></p>
                     </div>
                     <div>
-                      <p style="color:#9a8a72;font-size:0.75rem;text-transform:uppercase;margin:0 0 0.25rem 0;">Check-out</p>
-                      <p style="color:#2c2416;margin:0;font-weight:500;"><%= new Date(booking.check_out_date).toLocaleDateString() %></p>
+                      <p style="color:#7A9EA0;font-size:0.75rem;text-transform:uppercase;margin:0 0 0.25rem 0;">Check-out</p>
+                      <p style="color:#1A2E30;margin:0;font-weight:500;"><%= new Date(booking.check_out_date).toLocaleDateString() %></p>
                     </div>
                   </div>
                 </div>
 
-                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(44,36,22,0.1);padding-top:1rem;">
+                <div class="booking-bottom-row" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;border-top:1px solid rgba(26,62,64,0.1);padding-top:1rem;">
                   <div>
-                    <p style="color:#9a8a72;font-size:0.75rem;text-transform:uppercase;margin:0 0 0.25rem 0;">Total Cost</p>
-                    <p style="color:#c2714f;font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin:0;font-weight:300;">PKR <%= booking.total_price.toLocaleString() %></p>
+                    <p style="color:#7A9EA0;font-size:0.75rem;text-transform:uppercase;margin:0 0 0.25rem 0;">Total Cost</p>
+                    <p style="color:#E07B45;font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin:0;font-weight:300;">PKR <%= booking.total_price.toLocaleString() %></p>
                   </div>
                   <div style="display:flex;gap:0.5rem;">
                     <span style="background:<%= booking.status === 'confirmed' ? '#e8f5e9' : booking.status === 'cancelled' ? '#ffebee' : '#fff3e0' %>;color:<%= booking.status === 'confirmed' ? '#2e7d32' : booking.status === 'cancelled' ? '#c62828' : '#e65100' %>;padding:0.5rem 1rem;border-radius:4px;font-size:0.8rem;font-weight:500;text-transform:capitalize;">

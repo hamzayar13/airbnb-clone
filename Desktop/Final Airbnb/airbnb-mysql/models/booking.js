@@ -71,4 +71,17 @@ const findByHostId = async (hostId) => {
   return rows;
 };
 
-module.exports = { findByGuestId, findByHostId, findById, create, cancel };
+// Check if a property already has an active (non-cancelled) booking that overlaps the requested dates
+const hasDateConflict = async (property_id, check_in_date, check_out_date) => {
+  const [rows] = await db.query(
+    `SELECT booking_id FROM bookings
+     WHERE property_id = ?
+       AND status != 'cancelled'
+       AND check_in_date  < ?
+       AND check_out_date > ?`,
+    [property_id, check_out_date, check_in_date]
+  );
+  return rows.length > 0;
+};
+
+module.exports = { findByGuestId, findByHostId, findById, create, cancel, hasDateConflict };

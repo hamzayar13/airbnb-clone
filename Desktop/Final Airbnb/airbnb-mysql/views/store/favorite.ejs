@@ -8,7 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
     <style>
       * { box-sizing: border-box; }
-      body { font-family: 'Lato', sans-serif; background: #f5f0e8; color: #2c2416; margin: 0; }
+      @media (min-width: 640px) {
+        .main-fav { padding: 3rem 2.5rem !important; }
+      }
+      body { font-family: 'Lato', sans-serif; background: #F3F7F7; color: #1A2E30; margin: 0; }
       h1 { font-family: 'Cormorant Garamond', serif; }
       @keyframes fadeUp {
         from { opacity: 0; transform: translateY(16px); }
@@ -16,30 +19,30 @@
       }
       .fade-up { animation: fadeUp 0.6s ease forwards; }
       .fade-up-2 { animation: fadeUp 0.6s ease 0.15s forwards; opacity: 0; }
-      .fav-card { background: #fff; border: 1px solid rgba(44,36,22,0.1); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s; }
-      .fav-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(44,36,22,0.1); }
+      .fav-card { background: #fff; border: 1px solid rgba(26,62,64,0.1); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s; }
+      .fav-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(26,62,64,0.1); }
     </style>
   </head>
   <body style="display:flex;flex-direction:column;min-height:100vh;">
 
     <%- include('../partials/navbar') %>
 
-    <main style="flex:1;padding:3rem 2.5rem;max-width:72rem;margin:0 auto;width:100%;">
+    <main class="main-fav" style="flex:1;padding:3rem 1rem;max-width:72rem;margin:0 auto;width:100%;">
 
       <div class="fade-up" style="margin-bottom:3rem;">
-        <span style="color:#6b7c5e;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:0.75rem;">Saved Properties</span>
-        <h1 style="font-size:3rem;color:#2c2416;font-weight:300;">My <em style="color:#c2714f;">Favorites</em></h1>
+        <span style="color:#3A7B6F;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:0.75rem;">Saved Properties</span>
+        <h1 style="font-size:3rem;color:#1A2E30;font-weight:300;">My <em style="color:#E07B45;">Favorites</em></h1>
         <div style="width:2.5rem;height:2px;background:#6b7c5e;margin-top:1rem;"></div>
       </div>
 
       <% if (favouriteHomes && favouriteHomes.length === 0) { %>
-        <div class="fade-up-2" style="border:1.5px dashed rgba(44,36,22,0.15);padding:5rem 1.5rem;text-align:center;border-radius:8px;background:rgba(255,255,255,0.4);">
-          <p style="font-size:3rem;color:rgba(44,36,22,0.15);margin-bottom:1rem;">♡</p>
-          <p style="color:#9a8a72;font-size:0.875rem;margin-bottom:0.5rem;">No saved properties yet</p>
-          <a href="/" style="color:#c2714f;font-size:0.8rem;text-decoration:none;">Browse properties →</a>
+        <div class="fade-up-2" style="border:1.5px dashed rgba(26,62,64,0.15);padding:5rem 1.5rem;text-align:center;border-radius:8px;background:rgba(255,255,255,0.4);">
+          <p style="font-size:3rem;color:rgba(26,62,64,0.15);margin-bottom:1rem;">♡</p>
+          <p style="color:#7A9EA0;font-size:0.875rem;margin-bottom:0.5rem;">No saved properties yet</p>
+          <a href="/" style="color:#E07B45;font-size:0.8rem;text-decoration:none;">Browse properties →</a>
         </div>
       <% } else if (favouriteHomes && favouriteHomes.length > 0) { %>
-        <ul class="fade-up-2" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;list-style:none;padding:0;margin:0;">
+        <ul class="fade-up-2" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;list-style:none;padding:0;margin:0;">
           <% favouriteHomes.forEach((home) => { %>
             <li class="fav-card">
               <div style="height:200px;overflow:hidden;flex-shrink:0;background:#e8dcc8;">
@@ -47,21 +50,21 @@
                   <img src="/<%= home.photo %>" alt="<%= home.houseName %>" style="width:100%;height:100%;object-fit:contain;opacity:0.9;background-color:#f0ebe0;" />
                 <% } else { %>
                   <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
-                    <span style="color:rgba(44,36,22,0.2);font-size:2.5rem;">⌂</span>
+                    <span style="color:rgba(26,62,64,0.2);font-size:2.5rem;">⌂</span>
                   </div>
                 <% } %>
               </div>
               <div style="padding:1.25rem;display:flex;flex-direction:column;flex:1;">
                 <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem;">
-                  <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#2c2416;"><%= home.houseName %></p>
-                  <span style="font-size:0.7rem;color:#6b7c5e;">★ <%= home.rating %></span>
+                  <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#1A2E30;"><%= home.houseName %></p>
+                  <span style="font-size:0.7rem;color:#3A7B6F;">★ <%= home.rating %></span>
                 </div>
-                <p style="font-size:0.75rem;color:#9a8a72;margin-bottom:0.75rem;">📍 <%= home.location %></p>
-                <p style="font-size:0.9rem;color:#c2714f;font-family:'Cormorant Garamond',serif;margin-bottom:1rem;">$<%= home.price %><span style="color:#9a8a72;font-size:0.75rem;font-family:'Lato',sans-serif;">/night</span></p>
+                <p style="font-size:0.75rem;color:#7A9EA0;margin-bottom:0.75rem;">📍 <%= home.location %></p>
+                <p style="font-size:0.9rem;color:#E07B45;font-family:'Cormorant Garamond',serif;margin-bottom:1rem;">$<%= home.price %><span style="color:#7A9EA0;font-size:0.75rem;font-family:'Lato',sans-serif;">/night</span></p>
                 <div style="display:flex;gap:0.5rem;margin-top:auto;">
-                  <a href="/homes/<%= home.id %>" style="flex:1;text-align:center;font-size:0.72rem;padding:0.5rem;border:1.5px solid #c2714f;color:#c2714f;text-decoration:none;border-radius:4px;transition:all 0.2s;">View →</a>
+                  <a href="/homes/<%= home.id %>" style="flex:1;text-align:center;font-size:0.72rem;padding:0.5rem;border:1.5px solid #E07B45;color:#E07B45;text-decoration:none;border-radius:4px;transition:all 0.2s;">View →</a>
                   <form action="/favourites/delete/<%= home.id %>" method="POST" style="flex:1;">
-                    <button type="submit" style="width:100%;font-size:0.72rem;padding:0.5rem;border:1.5px solid rgba(44,36,22,0.2);color:#9a8a72;background:transparent;cursor:pointer;border-radius:4px;transition:all 0.2s;">✕ Remove</button>
+                    <button type="submit" style="width:100%;font-size:0.72rem;padding:0.5rem;border:1.5px solid rgba(26,62,64,0.2);color:#7A9EA0;background:transparent;cursor:pointer;border-radius:4px;transition:all 0.2s;">✕ Remove</button>
                   </form>
                 </div>
               </div>

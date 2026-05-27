@@ -8,7 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
     <style>
       * { box-sizing: border-box; }
-      body { font-family: 'Lato', sans-serif; background: #f5f0e8; color: #2c2416; margin: 0; }
+      @media (min-width: 640px) {
+        .main-res { padding: 3rem 2.5rem !important; }
+      }
+      @media (max-width: 639px) {
+        .res-card-inner { flex-direction: column !important; }
+        .booking-img { width: 100% !important; height: 180px !important; }
+        .res-grid { grid-template-columns: 1fr !important; }
+        .res-bottom { flex-direction: column !important; gap: 0.75rem; }
+      }
+      body { font-family: 'Lato', sans-serif; background: #F3F7F7; color: #1A2E30; margin: 0; }
       h1 { font-family: 'Cormorant Garamond', serif; }
       @keyframes fadeUp {
         from { opacity: 0; transform: translateY(16px); }
@@ -16,8 +25,8 @@
       }
       .fade-up { animation: fadeUp 0.6s ease forwards; }
       .fade-up-2 { animation: fadeUp 0.6s ease 0.15s forwards; opacity: 0; }
-      .booking-card { background: #fff; border: 1px solid rgba(44,36,22,0.1); border-radius: 8px; overflow: hidden; padding: 1.5rem; margin-bottom: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; }
-      .booking-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(44,36,22,0.08); }
+      .booking-card { background: #fff; border: 1px solid rgba(26,62,64,0.1); border-radius: 8px; overflow: hidden; padding: 1.5rem; margin-bottom: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; }
+      .booking-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(26,62,64,0.08); }
       .booking-img { width: 120px; height: 120px; object-fit: contain; background-color: #f0ebe0; border-radius: 4px; flex-shrink: 0; }
       .status-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
       .status-confirmed { background: #d4edda; color: #155724; }
@@ -29,61 +38,61 @@
 
     <%- include('../partials/navbar') %>
 
-    <main style="flex:1;padding:3rem 2.5rem;max-width:72rem;margin:0 auto;width:100%;">
+    <main class="main-res" style="flex:1;padding:3rem 1rem;max-width:72rem;margin:0 auto;width:100%;">
 
       <div class="fade-up" style="margin-bottom:3rem;">
-        <span style="color:#6b7c5e;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:0.75rem;">Bookings Received</span>
-        <h1 style="font-size:3rem;color:#2c2416;font-weight:300;">My <em style="color:#c2714f;">Reservations</em></h1>
+        <span style="color:#3A7B6F;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;display:block;margin-bottom:0.75rem;">Bookings Received</span>
+        <h1 style="font-size:3rem;color:#1A2E30;font-weight:300;">My <em style="color:#E07B45;">Reservations</em></h1>
         <div style="width:2.5rem;height:2px;background:#6b7c5e;margin-top:1rem;"></div>
       </div>
 
       <% if (!reservations || reservations.length === 0) { %>
-        <div class="fade-up-2" style="border:1.5px dashed rgba(44,36,22,0.15);padding:5rem 1.5rem;text-align:center;border-radius:8px;background:rgba(255,255,255,0.4);">
-          <p style="font-size:3rem;color:rgba(44,36,22,0.15);margin-bottom:1rem;">📅</p>
-          <p style="color:#9a8a72;font-size:0.875rem;margin-bottom:0.5rem;">No reservations yet</p>
-          <a href="/host/host-home-list" style="color:#c2714f;font-size:0.8rem;text-decoration:none;">View your properties →</a>
+        <div class="fade-up-2" style="border:1.5px dashed rgba(26,62,64,0.15);padding:5rem 1.5rem;text-align:center;border-radius:8px;background:rgba(255,255,255,0.4);">
+          <p style="font-size:3rem;color:rgba(26,62,64,0.15);margin-bottom:1rem;">📅</p>
+          <p style="color:#7A9EA0;font-size:0.875rem;margin-bottom:0.5rem;">No reservations yet</p>
+          <a href="/host/host-home-list" style="color:#E07B45;font-size:0.8rem;text-decoration:none;">View your properties →</a>
         </div>
       <% } else { %>
         <div class="fade-up-2">
           <% reservations.forEach((booking) => { %>
-            <div class="booking-card" style="display:flex;gap:1.5rem;">
+            <div class="booking-card"><div class="res-card-inner" style="display:flex;gap:1.5rem;">
               <% if (booking.photo) { %>
                 <img src="/<%= booking.photo %>" alt="<%= booking.houseName %>" class="booking-img" />
               <% } else { %>
-                <div class="booking-img" style="display:flex;align-items:center;justify-content:center;"><span style="color:rgba(44,36,22,0.2);font-size:2rem;">⌂</span></div>
+                <div class="booking-img" style="display:flex;align-items:center;justify-content:center;"><span style="color:rgba(26,62,64,0.2);font-size:2rem;">⌂</span></div>
               <% } %>
               
               <div style="flex:1;">
                 <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:0.75rem;">
                   <div>
-                    <p style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#2c2416;margin:0 0 0.25rem 0;"><%= booking.houseName %></p>
-                    <p style="font-size:0.75rem;color:#9a8a72;margin:0;">Guest: <strong><%= booking.guest_name %></strong></p>
+                    <p style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#1A2E30;margin:0 0 0.25rem 0;"><%= booking.houseName %></p>
+                    <p style="font-size:0.75rem;color:#7A9EA0;margin:0;">Guest: <strong><%= booking.guest_name %></strong></p>
                   </div>
                   <span class="status-badge status-<%= booking.status %>"><%= booking.status.toUpperCase() %></span>
                 </div>
 
-                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1rem;font-size:0.85rem;">
+                <div class="res-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1rem;font-size:0.85rem;">
                   <div>
-                    <p style="color:#9a8a72;margin:0;">Check-in</p>
-                    <p style="color:#2c2416;font-weight:bold;margin:0;"><%= new Date(booking.check_in_date).toLocaleDateString() %></p>
+                    <p style="color:#7A9EA0;margin:0;">Check-in</p>
+                    <p style="color:#1A2E30;font-weight:bold;margin:0;"><%= new Date(booking.check_in_date).toLocaleDateString() %></p>
                   </div>
                   <div>
-                    <p style="color:#9a8a72;margin:0;">Check-out</p>
-                    <p style="color:#2c2416;font-weight:bold;margin:0;"><%= new Date(booking.check_out_date).toLocaleDateString() %></p>
+                    <p style="color:#7A9EA0;margin:0;">Check-out</p>
+                    <p style="color:#1A2E30;font-weight:bold;margin:0;"><%= new Date(booking.check_out_date).toLocaleDateString() %></p>
                   </div>
                 </div>
 
-                <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div class="res-bottom" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
                   <div>
-                    <p style="color:#9a8a72;font-size:0.75rem;margin:0;">Total Price</p>
-                    <p style="color:#c2714f;font-size:1.1rem;font-weight:bold;margin:0;">$<%= booking.total_price %></p>
+                    <p style="color:#7A9EA0;font-size:0.75rem;margin:0;">Total Price</p>
+                    <p style="color:#E07B45;font-size:1.1rem;font-weight:bold;margin:0;">$<%= booking.total_price %></p>
                   </div>
-                  <div style="font-size:0.75rem;color:#9a8a72;">
+                  <div style="font-size:0.75rem;color:#7A9EA0;">
                     <p>📧 <%= booking.guest_email %></p>
                   </div>
                 </div>
               </div>
-            </div>
+            </div></div>
           <% }); %>
         </div>
       <% } %>

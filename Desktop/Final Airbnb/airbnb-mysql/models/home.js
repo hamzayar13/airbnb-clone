@@ -62,4 +62,10 @@ const deleteById = async (id) => {
   return home;
 };
 
-module.exports = { findAll, findById, create, update, deleteById };
+// Get only homes belonging to a specific host
+const findByHostId = async (hostId) => {
+  const [rows] = await db.query("SELECT * FROM homes WHERE host_id = ?", [hostId]);
+  return rows;
+};
+
+module.exports = { findAll, findById, findByHostId, create, update, deleteById };

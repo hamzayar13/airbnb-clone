@@ -115,6 +115,15 @@ exports.getBookingForm = async (req, res, next) => {
     if (!home) {
       return res.redirect("/homes");
     }
+    // Only the owner of this specific property cannot book it
+    if (
+      req.isLoggedIn &&
+      req.session.user &&
+      req.session.user.userType === "host" &&
+      home.host_id == req.session.user.id
+    ) {
+      return res.redirect("/host/host-home-list");
+    }
     res.render("store/reserve", {
       home,
       pageTitle: "Book Property",
@@ -141,6 +150,14 @@ exports.postBooking = async (req, res, next) => {
       return res.status(404).send("Property not found");
     }
 
+    // Only the owner of this specific property cannot book it
+    if (
+      req.session.user.userType === "host" &&
+      home.host_id == req.session.user.id
+    ) {
+      return res.redirect("/host/host-home-list");
+    }
+
     // Calculate number of nights
     const checkIn = new Date(check_in_date);
     const checkOut = new Date(check_out_date);
@@ -148,6 +165,24 @@ exports.postBooking = async (req, res, next) => {
 
     if (nights <= 0) {
       return res.status(400).send("Check-out date must be after check-in date");
+    }
+
+    // Check for overlapping bookings on this property
+    const conflict = await Booking.hasDateConflict(
+      homeId,
+      check_in_date,
+      check_out_date,
+    );
+    if (conflict) {
+      return res.render("store/reserve", {
+        home,
+        pageTitle: "Book Property",
+        currentPage: "booking",
+        isLoggedIn: req.isLoggedIn,
+        user: req.session.user,
+        errorMessage:
+          "Sorry, this property is already booked for the selected dates. Please choose different dates.",
+      });
     }
 
     const total_price = nights * home.price;
@@ -158,7 +193,7 @@ exports.postBooking = async (req, res, next) => {
       check_in_date,
       check_out_date,
       total_price,
-      status: 'confirmed',
+      status: "confirmed",
     });
 
     res.redirect("/bookings");
