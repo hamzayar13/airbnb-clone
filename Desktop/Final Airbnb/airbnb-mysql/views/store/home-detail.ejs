@@ -78,7 +78,7 @@
           </div>
           <div class="stat-card">
             <p style="color:#9a8a72;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;">Per Night</p>
-            <p style="color:#E07B45;font-size:1rem;font-family:'Cormorant Garamond',serif;">$<%= home.price %></p>
+            <p style="color:#E07B45;font-size:1rem;font-family:'Cormorant Garamond',serif;">PKR <%= home.price %></p>
           </div>
           <div class="stat-card">
             <p style="color:#9a8a72;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;">Rating</p>
@@ -95,7 +95,7 @@
       <div class="fade-up-3" class="booking-bottom" style="background:#fff;border:1px solid rgba(44,36,22,0.1);border-radius:8px;padding:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
         <div>
           <p style="color:#9a8a72;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem;">Reserve this property</p>
-          <p style="color:#E07B45;font-size:2rem;font-family:'Cormorant Garamond',serif;font-weight:300;">$<%= home.price %><span style="color:#9a8a72;font-size:0.875rem;font-family:'Lato',sans-serif;">/night</span></p>
+          <p style="color:#E07B45;font-size:2rem;font-family:'Cormorant Garamond',serif;font-weight:300;">PKR <%= home.price %><span style="color:#9a8a72;font-size:0.875rem;font-family:'Lato',sans-serif;">/night</span></p>
         </div>
        <div class="booking-actions" style="display:flex;gap:0.75rem;">
   <% if (isLoggedIn && user && user.userType === 'host' && home.host_id == user.id) { %>
