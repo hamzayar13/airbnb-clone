@@ -60,6 +60,7 @@ exports.postAddHome = async (req, res, next) => {
     if (!req.file) return res.status(422).send("No image provided");
 
     const photo = req.file.path;
+    console.log("File object:", JSON.stringify(req.file));
 
     await Home.create({
       houseName,
@@ -89,6 +90,7 @@ exports.postEditHome = async (req, res, next) => {
     let newPhoto = null;
     if (req.file) {
       newPhoto = req.file.path;
+      console.log("Edit file object:", JSON.stringify(req.file));
     }
 
     await Home.update(id, {
