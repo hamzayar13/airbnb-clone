@@ -72,9 +72,15 @@ exports.postAddHome = async (req, res, next) => {
       return res.status(422).send("No image provided");
     }
 
-    console.log("Adding home with data:", { houseName, price, location, rating, hostId });
-    
-    const photo = req.file.path;
+    console.log("Adding home with data:", {
+      houseName,
+      price,
+      location,
+      rating,
+      hostId,
+    });
+
+    const photo = req.file.path || req.file.secure_url;
     await Home.create({
       houseName,
       price,
@@ -154,16 +160,16 @@ exports.postDeleteHome = async (req, res, next) => {
 exports.getReservations = async (req, res, next) => {
   try {
     const hostId = req.session.user?.id;
-    
+
     if (!hostId) {
       console.error("Error: No user ID in session for reservations");
       return res.status(401).send("Not authenticated");
     }
 
     console.log("Fetching reservations for hostId:", hostId);
-    
+
     const reservations = await Booking.findByHostId(hostId);
-    
+
     res.render("host/reservations", {
       reservations,
       pageTitle: "My Reservations",
