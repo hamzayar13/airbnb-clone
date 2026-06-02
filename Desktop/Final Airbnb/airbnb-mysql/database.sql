@@ -1,8 +1,3 @@
--- ================================================
--- Airbnb Clone - MySQL Database Schema
--- Run this file in MySQL before starting the app
--- ================================================
-
 -- Create and use the database
 CREATE DATABASE IF NOT EXISTS `Airbnb project`;
 USE `Airbnb project`;
@@ -31,7 +26,9 @@ CREATE TABLE IF NOT EXISTS homes (
   rating      DECIMAL(3, 1)                   NOT NULL,
   photo       VARCHAR(500)                    DEFAULT NULL,
   description TEXT                            DEFAULT NULL,
-  createdAt   TIMESTAMP                       DEFAULT CURRENT_TIMESTAMP
+  host_id     INT                             NOT NULL,
+  createdAt   TIMESTAMP                       DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (host_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- -----------------------------------------------
@@ -43,11 +40,11 @@ CREATE TABLE IF NOT EXISTS bookings (
   guest_id        INT NOT NULL,
   check_in_date   DATE NOT NULL,
   check_out_date  DATE NOT NULL,
-  total_price     DECIMAL(10, 2) NOT NULL,
+  total_price     DECIMAL(10, 2)              NOT NULL,
   status          ENUM('confirmed', 'pending', 'cancelled') DEFAULT 'confirmed',
-  booking_date    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  booking_date    TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (property_id) REFERENCES homes(id) ON DELETE CASCADE,
-  FOREIGN KEY (guest_id) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (guest_id)    REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- -----------------------------------------------
