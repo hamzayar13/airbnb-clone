@@ -7,8 +7,6 @@ const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const multer = require("multer");
-const cloudinary = require("cloudinary").v2;
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 // Local Modules
 const storeRouter = require("./routes/storeRouter");
@@ -19,18 +17,15 @@ const errorsController = require("./controllers/errors");
 
 const fs = require("fs");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-// Multer setup for image uploads
 const randomString = (length) => {
   const characters = "abcdefghijklmnopqrstuvwxyz";
   let result = "";
@@ -40,11 +35,12 @@ const randomString = (length) => {
   return result;
 };
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "airbnb-homes",
-    allowed_formats: ["jpg", "jpeg", "png"],
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, randomString(10) + "-" + file.originalname);
   },
 });
 
@@ -67,7 +63,6 @@ app.use("/uploads", express.static(path.join(rootDir, "uploads")));
 app.use("/host/uploads", express.static(path.join(rootDir, "uploads")));
 app.use("/homes/uploads", express.static(path.join(rootDir, "uploads")));
 
-// Session
 app.use(
   session({
     secret: "airbnb-mysql-secret-key",

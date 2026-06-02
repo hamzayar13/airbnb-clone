@@ -1,5 +1,6 @@
 const Home = require("../models/home");
 const Booking = require("../models/booking");
+const fs = require("fs");
 
 exports.getAddHome = (req, res, next) => {
   res.render("host/edit-home", {
@@ -60,7 +61,6 @@ exports.postAddHome = async (req, res, next) => {
     if (!req.file) return res.status(422).send("No image provided");
 
     const photo = req.file.path;
-    console.log("File object:", JSON.stringify(req.file));
 
     await Home.create({
       houseName,
@@ -89,8 +89,12 @@ exports.postEditHome = async (req, res, next) => {
 
     let newPhoto = null;
     if (req.file) {
+      if (existingHome && existingHome.photo) {
+        fs.unlink(existingHome.photo, (err) => {
+          if (err) console.log("Error deleting old photo:", err);
+        });
+      }
       newPhoto = req.file.path;
-      console.log("Edit file object:", JSON.stringify(req.file));
     }
 
     await Home.update(id, {
@@ -117,6 +121,13 @@ exports.postDeleteHome = async (req, res, next) => {
     }
 
     await Home.deleteById(homeId);
+
+    if (home && home.photo) {
+      fs.unlink(home.photo, (err) => {
+        if (err) console.log("Error deleting photo:", err);
+      });
+    }
+
     res.redirect("/host/host-home-list");
   } catch (err) {
     next(err);
