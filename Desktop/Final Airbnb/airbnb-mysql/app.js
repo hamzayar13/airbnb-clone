@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 // Core Module
 const path = require("path");
 
@@ -5,6 +7,8 @@ const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 // Local Modules
 const storeRouter = require("./routes/storeRouter");
@@ -15,10 +19,12 @@ const errorsController = require("./controllers/errors");
 
 const fs = require("fs");
 
-// Create uploads directory if it doesn't exist
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -34,12 +40,11 @@ const randomString = (length) => {
   return result;
 };
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, randomString(10) + "-" + file.originalname);
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "airbnb-homes",
+    allowed_formats: ["jpg", "jpeg", "png"],
   },
 });
 
@@ -62,7 +67,7 @@ app.use("/uploads", express.static(path.join(rootDir, "uploads")));
 app.use("/host/uploads", express.static(path.join(rootDir, "uploads")));
 app.use("/homes/uploads", express.static(path.join(rootDir, "uploads")));
 
-// Session (memory store - fine for development)
+// Session
 app.use(
   session({
     secret: "airbnb-mysql-secret-key",
